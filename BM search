@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+
+
+
+void find(char s[10000], char word[1000], int TAB[256])
+{
+	int i = strlen(word) - 1;
+	while (i < strlen(s))
+	{
+		int j = strlen(word) - 1, k = 0, c = i;
+		if (word[j] == s[i])
+			while ((word[j] == s[c]) && (j >= 0))
+			{
+				j--;
+				c--;
+				k++;
+			}
+		else
+			i += TAB[s[i]];
+		if (k == strlen(word))
+		{
+			cout << i - strlen(word) + 2 << endl;
+			i++;
+		}
+	}
+}
+
+
+int main()
+{
+	setlocale(LC_ALL, "Russian");
+	char s[10000];
+	cout << "[!] Введите строку: ";
+	cin.getline(s, 10000);
+
+	char word[1000];
+	cout << "[!] Введите подстроку: ";
+	cin.getline(word, 10000);
+
+	int TAB[256];
+	for (int i = 0; i < 256; i++)
+	{
+		TAB[i] = strlen(word);
+	}
+	for (int i = 0; i < strlen(word) - 1; i++)
+	{
+		TAB[word[i]] = strlen(word) - 1 - i;
+	}
+
+	cout << "  {!} совпадения под номерами: " << endl;
+	find(s, word, TAB);
+}
